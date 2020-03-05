@@ -36,7 +36,6 @@ public class Ball extends Sprite {
             setBottom(canvas.getBottom());
             vY = -vY;
         }
-
     }
 
     @Override
