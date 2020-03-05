@@ -4,14 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class MainCircles extends JFrame {
     private static final int POS_X = 400;
     private static final int POS_Y = 200;
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 600;
-    private static int showBalls = 3;
+    private static int ballsInGame = 3;
 
     private Sprite[] sprites = new Sprite[100];
 
@@ -36,10 +35,10 @@ public class MainCircles extends JFrame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (e.getButton() == 1) {
-                    showBalls++;
+                    ballsInGame++;
                     initApplication();
                 } else if (e.getButton() == 3) {
-                    showBalls--;
+                    ballsInGame--;
                     initApplication();
                 }
             }
@@ -49,7 +48,7 @@ public class MainCircles extends JFrame {
 
     private void initApplication() {
 
-        for (int i = 0; i < showBalls; i++) {
+        for (int i = 0; i < ballsInGame; i++) {
             sprites[i] = new Ball();
         }
     }
@@ -61,13 +60,13 @@ public class MainCircles extends JFrame {
     }
 
     private void update(MainCanvas canvas, float deltaTime) {
-        for (int i = 0; i < showBalls; i++) {
+        for (int i = 0; i < ballsInGame; i++) {
             sprites[i].update(canvas, deltaTime);
         }
     }
 
     private void render(MainCanvas canvas, Graphics g) {
-        for (int i = 0; i < showBalls; i++) {
+        for (int i = 0; i < ballsInGame; i++) {
             sprites[i].render(canvas, g);
         }
     }
