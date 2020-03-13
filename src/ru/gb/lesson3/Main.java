@@ -14,6 +14,8 @@ public class Main {
                 "этот текст - для сплита понимания, " +
                 "этот текст - будет нещадно разнесен в массив, " +
                 "все символы будут рыдать на взрыв.";
+
+        //Изначально думал создать отдельный метод для сплита, с использованием его внутри методов для подзаданий 1 и 2
         String[] textArray = text.split("[,.\\-\\s]+");
 
         System.out.println("Задание №1. Список неповторяющихся слов: " + findUniqueWords(textArray));
@@ -51,6 +53,7 @@ public class Main {
         }
     }
 
+    //Задание №1. Подзадание №1. Метод, возвращающий список слов, из которых состоит текст
     private static LinkedHashSet<String> findUniqueWords(String[] wordsArray) {
         uniqueWords = new LinkedHashSet<>();
         for (int i = 0; i < wordsArray.length; i++) {
@@ -59,6 +62,7 @@ public class Main {
         return uniqueWords;
     }
 
+    //Задание №1. Подзадание №2. Метод, подсчитывающий кол-во повторяющихся в тексте слов
     private static LinkedHashMap<String, Integer> countChars(String[] wordsArray) {
         uniqueWordsCount = new LinkedHashMap<>();
         for (int i = 0; i < wordsArray.length; i++) {
