@@ -40,7 +40,6 @@ public class ServerGUI extends JFrame implements ActionListener, Thread.Uncaught
         btnStart.addActionListener(this);
         btnStop.addActionListener(this);
 
-
         add(btnStart);
         add(btnStop);
         setVisible(true);
@@ -66,7 +65,7 @@ public class ServerGUI extends JFrame implements ActionListener, Thread.Uncaught
         StackTraceElement[] ste = e.getStackTrace();
         msg = "Exception in thread " + t.getName() + " " + e.getClass().getCanonicalName() +
                 ": " + e.getMessage() + "\n\t" + ste[0];
-        JOptionPane.showMessageDialog(null,msg, "Exception", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, msg, "Exception", JOptionPane.ERROR_MESSAGE);
         System.exit(1);
     }
 }
