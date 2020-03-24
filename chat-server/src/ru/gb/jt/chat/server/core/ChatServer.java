@@ -5,12 +5,17 @@ import ru.gb.jt.network.ServerSocketThread;
 import ru.gb.jt.network.SocketThread;
 import ru.gb.jt.network.SocketThreadListener;
 
+import java.io.EOFException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Vector;
 
 public class ChatServer implements ServerSocketThreadListener, SocketThreadListener {
 
     ServerSocketThread server;
+
+    Vector<SocketThread> clients = new Vector();
+
 
     public void start(int port) {
         if (server == null || !server.isAlive()) {
@@ -61,7 +66,8 @@ public class ChatServer implements ServerSocketThreadListener, SocketThreadListe
     public void onSocketAccepted(ServerSocketThread thread, ServerSocket server, Socket socket) {
         putLog("Client connected");
         String name = "Socked Thread " + socket.getInetAddress() + ":" + socket.getPort();
-        new SocketThread(this, name, socket);
+        SocketThread client = new SocketThread(this, name, socket);
+        clients.add(client);
     }
 
     @Override
@@ -81,6 +87,7 @@ public class ChatServer implements ServerSocketThreadListener, SocketThreadListe
     @Override
     public void onSocketStop(SocketThread thread) {
         putLog("Client disconnected");
+        removeClient(thread);
     }
 
     @Override
@@ -90,11 +97,19 @@ public class ChatServer implements ServerSocketThreadListener, SocketThreadListe
 
     @Override
     public void onReceiveString(SocketThread thread, Socket socket, String msg) {
-        thread.sendMessage("Echo: " + msg);
+        for (SocketThread st : clients) {
+            st.sendMessage(msg);
+        }
     }
 
     @Override
     public void onSocketException(SocketThread thread, Exception exception) {
         exception.printStackTrace();
     }
+
+    public void removeClient(SocketThread client) {
+        clients.remove(client);
+
+    }
 }
+
