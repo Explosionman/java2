@@ -87,7 +87,16 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         } else if (src == btnSend || src == tfMessage) {
             sendMessage();
         } else if (src == btnLogin) {
+
             connect();
+            panelTop.setVisible(false);
+            panelBottom.setVisible(true);
+        } else if (src == btnDisconnect) {
+            socketThread.sendMessage(tfLogin.getText() + " disconnected");
+            disconnect();
+
+            panelBottom.setVisible(false);
+            panelTop.setVisible(true);
         } else
             throw new RuntimeException("Unknown source: " + src);
     }
@@ -95,10 +104,15 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
     private void connect() {
         try {
             Socket socket = new Socket(tfIPAddress.getText(), Integer.parseInt(tfPort.getText()));
-            socketThread = new SocketThread(this, "Client", socket);
+            socketThread = new SocketThread(this, tfLogin.getText(), socket);
         } catch (IOException e) {
             showException(Thread.currentThread(), e);
         }
+    }
+
+    private void disconnect() {
+        socketThread.interrupt();
+        socketThread.close();
     }
 
     private void sendMessage() {
@@ -107,7 +121,7 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         if ("".equals(msg)) return;
         tfMessage.setText(null);
         tfMessage.grabFocus();
-        socketThread.sendMessage(msg);
+        socketThread.sendMessage(username + ": " + msg);
 //        putLog(String.format("%s: %s", username, msg));
 //        wrtMsgToLogFile(msg, username);
     }
