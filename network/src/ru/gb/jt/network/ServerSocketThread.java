@@ -7,13 +7,13 @@ import java.net.SocketTimeoutException;
 
 public class ServerSocketThread extends Thread {
     private final int port;
-    private final int timeOut;
+    private final int timeout;
     private final ServerSocketThreadListener listener;
 
-    public ServerSocketThread(ServerSocketThreadListener listener, String name, int port, int timeOut) {
+    public ServerSocketThread(ServerSocketThreadListener listener, String name, int port, int timeout) {
         super(name);
         this.port = port;
-        this.timeOut = timeOut;
+        this.timeout = timeout;
         this.listener = listener;
         start();
     }
@@ -22,7 +22,7 @@ public class ServerSocketThread extends Thread {
     public void run() {
         listener.onServerStart(this);
         try (ServerSocket server = new ServerSocket(port)) {
-            server.setSoTimeout(timeOut);
+            server.setSoTimeout(timeout);
             listener.onServerSocketCreated(this, server);
             while (!isInterrupted()) {
                 Socket socket;

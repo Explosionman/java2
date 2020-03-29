@@ -6,14 +6,15 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class SocketThread extends Thread {
+
     private final Socket socket;
+    private DataOutputStream out;
     private SocketThreadListener listener;
-    DataOutputStream out;
 
     public SocketThread(SocketThreadListener listener, String name, Socket socket) {
         super(name);
-        this.listener = listener;
         this.socket = socket;
+        this.listener = listener;
         start();
     }
 
